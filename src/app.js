@@ -1,4 +1,4 @@
-const fastify = require('fastify')({ logger: true });
+const fastify = require('fastify')();
 const path = require('path');
 const { PORT } = require('./common/config');
 
@@ -10,6 +10,7 @@ fastify.register(require('fastify-swagger'), {
     path: path.join(__dirname, '../doc/api.yaml'),
   },
 })
+
 fastify.register(require('./resources/users/user.router'));
 fastify.register(require('./resources/boards/board.router'));
 fastify.register(require('./resources/tasks/task.router'));

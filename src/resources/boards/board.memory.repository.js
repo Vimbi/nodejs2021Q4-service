@@ -19,6 +19,7 @@ const updateBoard = async (boardId, data) => {
   if (boardIndex !== 1) {
     const updatedBoard = { ...boards[boardIndex], ...data };
     boards[boardIndex] = updatedBoard;
+    return updatedBoard;
   }
   return '';
 };

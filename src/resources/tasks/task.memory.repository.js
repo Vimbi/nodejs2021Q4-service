@@ -19,7 +19,9 @@ const updateTask = async (id, data) => {
   if (taskIndex !== -1) {
     const updatedTask = { ...tasks[taskIndex], ...data };
     tasks[taskIndex] = updatedTask;
+    return updatedTask;
   }
+  return '';
 };
 
 const deleteTask = async (id) => {

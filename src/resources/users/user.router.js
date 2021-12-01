@@ -42,55 +42,51 @@ const usersService = require('./user.service');
 // };
 
 function userRoutes(fastify, options, done) {
-  fastify
-    .get('/users', async (req, reply) => {
-      const users = await usersService.getAll();
-      reply.code(200).type('application/json').send(users.map(User.toResponse));
-    })
-    .get('/users/:userId', async (req, reply) => {
-      const user = await usersService.getUser(req.params.userId);
-      if (user) {
-        reply.code(200).type('application/json').send(User.toResponse(user));
-      } else {
-        reply
-          .code(404)
-          .type('application/json')
-          .send(`User with id: ${req.params.userId} does not exist`);
-      }
-    })
-    .post('/users', async (req, reply) => {
-      const user = await usersService.addUser(req.body);
-      if (user) {
-        reply.code(201).type('application/json').send(User.toResponse(user));
-      } else {
-        reply.code(404).type('application/json').send('Something went wrong');
-      }
-    })
-    .put('/users/:userId', async (req, reply) => {
-      const user = await usersService.updateUser(req.params.userId, req.body);
-      if (user) {
-        reply.code(200).type('application/json').send(User.toResponse(user));
-      } else {
-        reply
-          .code(404)
-          .type('application/json')
-          .send(`User with id: ${req.params.userId} does not exist`);
-      }
-    })
-    .delete('/users/:userId', async (req, reply) => {
-      const result = await usersService.deleteUser(req.params.userId);
-      if (result) {
-        reply
-          .code(200)
-          .type('application/json')
-          .send(`User with id: ${req.params.userId} deleted`);
-      } else {
-        reply
-          .code(404)
-          .type('application/json')
-          .send(`User with id: ${req.params.userId} does not exist`);
-      }
-    });
+  fastify.get('/users', async (req, reply) => {
+    const users = await usersService.getAll();
+    reply.code(200)
+    return users.map(User.toResponse);
+  });
+
+  fastify.get('/users/:userId', async (req, reply) => {
+    const user = await usersService.getUser(req.params.userId);
+    if (user) {
+      reply.code(200);
+      return User.toResponse(user);
+    }
+    reply.code(404);
+    return `User with id: ${req.params.userId} does not exist`;
+  });
+
+  fastify.post('/users', async (req, reply) => {
+    const user = await usersService.addUser(req.body);
+    if (user) {
+      reply.code(201);
+      return User.toResponse(user);
+    }
+    reply.code(404);
+    return 'Something went wrong';
+  });
+
+  fastify.put('/users/:userId', async (req, reply) => {
+    const user = await usersService.updateUser(req.params.userId, req.body);
+    if (user) {
+      reply.code(200);
+      return User.toResponse(user);
+    }
+    reply.code(404);
+    return `User with id: ${req.params.userId} does not exist`;
+  });
+
+  fastify.delete('/users/:userId', async (req, reply) => {
+    const result = await usersService.deleteUser(req.params.userId);
+    if (result) {
+      reply.code(200);
+      return `User with id: ${req.params.userId} deleted`;
+    }
+    reply.code(404);
+    return `User with id: ${req.params.userId} does not exist`;
+  });
 
   done();
 }
