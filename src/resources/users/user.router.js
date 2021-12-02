@@ -1,91 +1,57 @@
 const User = require('./user.model');
 const usersService = require('./user.service');
-
-// const UserSchema = {
-//   type: 'object',
-//   properties: {
-//     id: { type: 'string' },
-//     name: { type: 'string' },
-//     login: { type: 'string' },
-//   },
-// };
-
-// const getUsersOpts = {
-//   schema: {
-//     response: {
-//       200: {
-//         type: 'array',
-//         items: UserSchema,
-//       },
-//     },
-//   },
-//   handler: async (req, reply) => {
-//     const users = await usersService.getAll();
-//     reply.send(users.map(User.toResponse));
-//   },
-// };
-
-// const getUserOpts = {
-//   schema: {
-//     response: {
-//       200: UserSchema,
-//     },
-//   },
-// };
-
-// const postUsersOpts = {
-//   schema: {
-//     response: {
-//       201: UserSchema,
-//     },
-//   },
-// };
+const {
+  STATUS_CODES,
+  RESPONSE_MESSAGES,
+  createInvalidUserIdMessage,
+  createDeleteUserIdMessage,
+} = require('../../utils/constants');
 
 function userRoutes(fastify, options, done) {
   fastify.get('/users', async (req, reply) => {
     const users = await usersService.getAll();
-    reply.code(200)
+    reply.code(STATUS_CODES.OK);
     return users.map(User.toResponse);
   });
 
   fastify.get('/users/:userId', async (req, reply) => {
     const user = await usersService.getUser(req.params.userId);
     if (user) {
-      reply.code(200);
+      reply.code(STATUS_CODES.OK);
       return User.toResponse(user);
     }
-    reply.code(404);
-    return `User with id: ${req.params.userId} does not exist`;
+    reply.code(STATUS_CODES.NOT_FOUND);
+    return createInvalidUserIdMessage(req.params.userId);
   });
 
   fastify.post('/users', async (req, reply) => {
     const user = await usersService.addUser(req.body);
     if (user) {
-      reply.code(201);
+      reply.code(STATUS_CODES.CREATED);
       return User.toResponse(user);
     }
-    reply.code(404);
-    return 'Something went wrong';
+    reply.code(STATUS_CODES.BAD_REQUEST);
+    return RESPONSE_MESSAGES.BAD_REQUEST;
   });
 
   fastify.put('/users/:userId', async (req, reply) => {
     const user = await usersService.updateUser(req.params.userId, req.body);
     if (user) {
-      reply.code(200);
+      reply.code(STATUS_CODES.OK);
       return User.toResponse(user);
     }
-    reply.code(404);
-    return `User with id: ${req.params.userId} does not exist`;
+    reply.code(STATUS_CODES.NOT_FOUND);
+    return createInvalidUserIdMessage(req.params.userId);
   });
 
   fastify.delete('/users/:userId', async (req, reply) => {
     const result = await usersService.deleteUser(req.params.userId);
     if (result) {
-      reply.code(200);
-      return `User with id: ${req.params.userId} deleted`;
+      reply.code(STATUS_CODES.OK);
+      return createDeleteUserIdMessage(req.params.userId);
     }
-    reply.code(404);
-    return `User with id: ${req.params.userId} does not exist`;
+    reply.code(STATUS_CODES.NOT_FOUND);
+    return createInvalidUserIdMessage(req.params.userId);
   });
 
   done();
