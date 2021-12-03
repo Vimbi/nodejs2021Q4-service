@@ -15,6 +15,9 @@ fastify.register(require('./resources/users/user.router'));
 fastify.register(require('./resources/boards/board.router'));
 fastify.register(require('./resources/tasks/task.router'));
 
+// TODO: https://discord.com/channels/755676888680366081/755860337059823667/915298425002684417 обнови темплейт
+// https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository
+
 const start = async () => {
   try {
     await fastify.listen(PORT)
