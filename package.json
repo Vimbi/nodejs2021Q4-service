@@ -7,7 +7,7 @@
   },
   "type": "commonjs",
   "description": "REST service starter for RS School",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "nodemon src/app.js",
     "lint": "eslint --ext .js,.ts --fix src/",
