@@ -1,4 +1,6 @@
-const users = [
+import { IUser } from "../types/user";
+
+const users: IUser[] = [
   {
     "id": "0",
     "name": "Administrator",
@@ -13,4 +15,4 @@ const users = [
   }
 ];
 
-module.exports = users;
+export default users;

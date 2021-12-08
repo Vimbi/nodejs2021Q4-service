@@ -6,7 +6,7 @@ import {
 } from '../../utils/constants';
 import express from 'express';
 import User from './user.model';
-import usersService from './user.service';
+import * as usersService from './user.service';
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.route('/:userId')
   .delete(async (req, res) => {
     const result = await usersService.deleteUser(req.params.userId);
     if (result) {
-      res.status(STATUS_CODES.OK).end(`User with id: ${req.params.userId} deleted`);
+      res.status(STATUS_CODES.OK).end(createDeleteUserIdMessage(req.params.userId));
     } else {
       res.status(STATUS_CODES.NOT_FOUND).end(createInvalidUserIdMessage(req.params.userId));
     }

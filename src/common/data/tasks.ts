@@ -1,4 +1,6 @@
-const tasks = [
+import { ITask } from "../types/task";
+
+const tasks: ITask[] = [
   {
     "id": "0",
     "title": "task_title",
@@ -19,4 +21,4 @@ const tasks = [
   }
 ];
 
-module.exports = tasks;
+export default tasks;

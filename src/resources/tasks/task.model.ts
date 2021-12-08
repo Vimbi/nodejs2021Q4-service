@@ -1,6 +1,15 @@
-const uuid = require('uuid').v4;
+import { ITask } from 'src/common/types/task';
+import { v4 as uuid } from 'uuid';
 
-class Task {
+class Task implements ITask {
+  id: string;
+  title:string;
+  order: number;
+  description:string;
+  userId: string | null;
+  boardId: string;
+  columnId: string;
+
   constructor({
     id = uuid(),
     title = 'task_title',
@@ -20,4 +29,4 @@ class Task {
   }
 }
 
-module.exports = Task;
+export default Task;
