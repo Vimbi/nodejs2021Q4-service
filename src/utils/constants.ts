@@ -4,12 +4,15 @@ const RESPONSE_MESSAGES = {
   INTERNAL_SERVER_ERROR: '500 Internal Server Error',
 };
 
-const createInvalidUserIdMessage = (id: string) => `User with id: ${id} does not exist`;
+const createInvalidUserIdMessage = (id: string) =>
+  `User with id: ${id} does not exist`;
 const createDeleteUserIdMessage = (id: string) => `User with id: ${id} deleted`;
 const createInvalidBoardIdMessage = (id: string) =>
   `Board with id: ${id} does not exist`;
-const createDeleteBoardIdMessage = (id: string) => `Board with id: ${id} deleted`;
-const createInvalidTaskIdMessage = (id: string) => `Task with id: ${id} does not exist`;
+const createDeleteBoardIdMessage = (id: string) =>
+  `Board with id: ${id} deleted`;
+const createInvalidTaskIdMessage = (id: string) =>
+  `Task with id: ${id} does not exist`;
 const createDeleteTaskIdMessage = (id: string) => `Task with id: ${id} deleted`;
 
 const STATUS_CODES = {

@@ -1,6 +1,6 @@
+import { IUser } from '../../common/types/user';
 import * as usersRepo from './user.memory.repository';
-import * as tasksService from '../tasks/task.service';
-import { IUser } from 'src/common/types/user';
+import { updateDeleteUserTasks } from '../tasks/task.service';
 
 const getAll = () => usersRepo.getAll();
 
@@ -11,8 +11,8 @@ const addUser = (data: IUser) => usersRepo.addUser(data);
 const updateUser = (id: string, data: IUser) => usersRepo.updateUser(id, data);
 
 const deleteUser = async (id: string) => {
-  await tasksService.updateDeleteUserTasks(id);
+  await updateDeleteUserTasks(id);
   return usersRepo.deleteUser(id);
-}
+};
 
 export { getAll, getUser, addUser, updateUser, deleteUser };

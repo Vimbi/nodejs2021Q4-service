@@ -1,18 +1,28 @@
-import { ITask } from 'src/common/types/task';
+import { ITask } from '../../common/types/task';
 import * as tasksRepo from './task.memory.repository';
 
 const getAll = () => tasksRepo.getAll();
 
-const addTask = (data: ITask) => tasksRepo.addTask(data);
+const addTask = (task: ITask) => tasksRepo.addTask(task);
 
 const getTask = (id: string) => tasksRepo.getTaskId(id);
 
-const updateTask = (id: string, data: ITask) => tasksRepo.updateTask(id, data);
+const updateTask = (boardId: string, id: string, data: ITask) =>
+  tasksRepo.updateTask(boardId, id, data);
 
 const deleteTask = (id: string) => tasksRepo.deleteTask(id);
 
-const deleteBoardTasks = (id: any) => tasksRepo.deleteBoardTasks(id);
+const deleteBoardTasks = (id: string) => tasksRepo.deleteBoardTasks(id);
 
-const updateDeleteUserTasks = (id: string) => tasksRepo.updateDeleteUserTasks(id);
+const updateDeleteUserTasks = (id: string) =>
+  tasksRepo.updateDeleteUserTasks(id);
 
-export { getAll, addTask, getTask, updateTask, deleteTask, deleteBoardTasks, updateDeleteUserTasks };
+export {
+  getAll,
+  addTask,
+  getTask,
+  updateTask,
+  deleteTask,
+  deleteBoardTasks,
+  updateDeleteUserTasks,
+};

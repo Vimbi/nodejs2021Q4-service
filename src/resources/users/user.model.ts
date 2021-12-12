@@ -1,10 +1,13 @@
-import { IUser } from 'src/common/types/user';
 import { v4 as uuid } from 'uuid';
+import { IUser } from '../../common/types/user';
 
 class User implements IUser {
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
 
   constructor({

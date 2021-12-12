@@ -1,4 +1,4 @@
-import { IUser } from 'src/common/types/user';
+import { IUser } from '../../common/types/user';
 import users from '../../common/data/users';
 import User from './user.model';
 
