@@ -10,6 +10,14 @@ class User implements IUser {
 
   password: string;
 
+  /**
+   * Create a user
+   * @param id - user's id
+   * @param name - user's name
+   * @param login - user's login
+   * @param password - user's password
+   */
+
   constructor({
     id = uuid(),
     name = 'USER',

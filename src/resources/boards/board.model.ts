@@ -9,6 +9,13 @@ class Board implements IBoard {
 
   columns: Column[];
 
+  /**
+   * Create a board
+   * @param id - board's id
+   * @param title - board's title
+   * @param column - arrow of columns belonging to this board
+   */
+
   constructor({
     id = uuid(),
     title = 'Board_Title',

@@ -8,6 +8,13 @@ class Column implements IColumn {
 
   order: number;
 
+  /**
+   * Create a column
+   * @param id - column's id
+   * @param title - column's title
+   * @param order - column's order
+   */
+
   constructor({ id = uuid(), title = 'Column_Title', order = 0 } = {}) {
     this.id = id;
     this.title = title;

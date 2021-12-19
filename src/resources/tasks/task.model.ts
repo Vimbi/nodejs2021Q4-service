@@ -16,6 +16,16 @@ class Task implements ITask {
 
   columnId: string;
 
+  /**
+   * Create a task
+   * @param id - task's id
+   * @param title - task's title
+   * @param description - task's description
+   * @param userId - id of the user to whom the task belongs
+   * @param boardId - id of the board to which the task belongs
+   * @param columnId - id of the column to which the task belongs
+   */
+
   constructor({
     id = uuid(),
     title = 'task_title',
