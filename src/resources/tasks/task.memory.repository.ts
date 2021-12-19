@@ -6,7 +6,7 @@ import tasks from '../../common/data/tasks';
  * @returns an array of all tasks
  */
 
-const getAll = async () => tasks;
+const getAll = async (): Promise<ITask[]> => tasks;
 
 /**
  * Returns the added task
@@ -14,7 +14,7 @@ const getAll = async () => tasks;
  * @returns added task
  */
 
-const addTask = async (task: ITask) => {
+const addTask = async (task: ITask): Promise<ITask> => {
   tasks.push(task);
   return task;
 };
@@ -25,7 +25,7 @@ const addTask = async (task: ITask) => {
  * @returns searched task or undefined
  */
 
-const getTaskId = async (id: string) => {
+const getTaskId = async (id: string): Promise<ITask | undefined> => {
   const result = tasks.find((task) => task.id === id);
   return result;
 };
@@ -35,19 +35,23 @@ const getTaskId = async (id: string) => {
  * @param boardId the id of the board to which the task is attached
  * @param id the id of the task we want to update
  * @param data parameters to update
- * @returns updated task or empty string
+ * @returns updated task or false
  */
 
-const updateTask = async (boardId: string, id: string, data: ITask) => {
+const updateTask = async (
+  boardId: string,
+  id: string,
+  data: ITask
+): Promise<false | ITask> => {
   const taskIndex = tasks.findIndex(
     (task) => task.id === id && task.boardId === boardId
   );
   if (taskIndex !== -1) {
-    const updatedTask = { ...tasks[taskIndex], ...data };
+    const updatedTask: ITask = { ...tasks[taskIndex], ...data };
     tasks[taskIndex] = updatedTask;
     return updatedTask;
   }
-  return '';
+  return false;
 };
 
 /**
@@ -56,7 +60,7 @@ const updateTask = async (boardId: string, id: string, data: ITask) => {
  * @returns a boolean confirmation or denial of deletion
  */
 
-const deleteTask = async (id: string) => {
+const deleteTask = async (id: string): Promise<boolean> => {
   const taskIndex = tasks.findIndex((task) => task.id === id);
   if (taskIndex !== -1) {
     tasks.splice(taskIndex, 1);
@@ -70,7 +74,7 @@ const deleteTask = async (id: string) => {
  * @param id the id of the board we want to delete
  */
 
-const deleteBoardTasks = async (id: string) => {
+const deleteBoardTasks = async (id: string): Promise<void> => {
   await tasks
     .filter((task) => task.boardId === id)
     .forEach((task) => deleteTask(task.id));
@@ -81,7 +85,7 @@ const deleteBoardTasks = async (id: string) => {
  * @param id the id of the user we want to delete
  */
 
-const updateDeleteUserTasks = async (id: string) => {
+const updateDeleteUserTasks = async (id: string): Promise<void> => {
   tasks.forEach((task, index) => {
     if (task.userId === id) {
       tasks[index] = { ...task, userId: null };

@@ -1,13 +1,14 @@
 import { IBoard } from '../../common/types/board';
 import * as boardsRepo from './board.memory.repository';
 import { deleteBoardTasks } from '../tasks/task.service';
+import Board from './board.model';
 
 /**
  * Returns an array of all boards
  * @returns an array of all boards
  */
 
-const getAll = () => boardsRepo.getAll();
+const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
 
 /**
  * Returns searched board or undefined
@@ -15,7 +16,8 @@ const getAll = () => boardsRepo.getAll();
  * @returns searched board or undefined
  */
 
-const getBoard = (id: string) => boardsRepo.getBoardId(id);
+const getBoard = (id: string): Promise<IBoard | undefined> =>
+  boardsRepo.getBoardId(id);
 
 /**
  * Returns the added board
@@ -23,16 +25,16 @@ const getBoard = (id: string) => boardsRepo.getBoardId(id);
  * @returns added board
  */
 
-const addBoard = (data: IBoard) => boardsRepo.addBoard(data);
+const addBoard = (data: IBoard): Promise<Board> => boardsRepo.addBoard(data);
 
 /**
  * Returns the updated board
  * @param id the id of the board we want to update
  * @param data parameters to update
- * @returns updated board or empty string
+ * @returns updated board or false
  */
 
-const updateBoard = (id: string, data: IBoard) =>
+const updateBoard = (id: string, data: IBoard): Promise<false | IBoard> =>
   boardsRepo.updateBoard(id, data);
 
 /**
@@ -41,7 +43,7 @@ const updateBoard = (id: string, data: IBoard) =>
  * @returns a boolean confirmation or denial of deletion
  */
 
-const deleteBoard = async (id: string) => {
+const deleteBoard = async (id: string): Promise<boolean> => {
   await deleteBoardTasks(id);
   return boardsRepo.deleteBoard(id);
 };

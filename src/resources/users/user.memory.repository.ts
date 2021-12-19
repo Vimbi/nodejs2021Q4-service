@@ -7,7 +7,7 @@ import User from './user.model';
  * @returns an array of all users
  */
 
-const getAll = async () => users;
+const getAll = async (): Promise<IUser[]> => users;
 
 /**
  * Returns searched user or undefined
@@ -15,7 +15,7 @@ const getAll = async () => users;
  * @returns searched user or undefined
  */
 
-const getUserById = async (id: string) => {
+const getUserById = async (id: string): Promise<IUser | undefined> => {
   const searchedUser = users.find((user) => user.id === id);
   return searchedUser;
 };
@@ -26,7 +26,7 @@ const getUserById = async (id: string) => {
  * @returns added user
  */
 
-const addUser = async (data: IUser) => {
+const addUser = async (data: IUser): Promise<User> => {
   const user = new User(data);
   users.push(user);
   return user;
@@ -36,17 +36,17 @@ const addUser = async (data: IUser) => {
  * Returns the updated user
  * @param id the id of the user we want to update
  * @param data parameters to update
- * @returns updated user or empty string
+ * @returns updated user or false
  */
 
-const updateUser = async (id: string, data: IUser) => {
+const updateUser = async (id: string, data: IUser): Promise<false | IUser> => {
   const userIndex = users.findIndex((user) => user.id === id);
   if (userIndex !== -1) {
-    const updatedUser = { ...users[userIndex], ...data };
+    const updatedUser: IUser = { ...users[userIndex], ...data };
     users[userIndex] = updatedUser;
     return updatedUser;
   }
-  return '';
+  return false;
 };
 
 /**
@@ -55,7 +55,7 @@ const updateUser = async (id: string, data: IUser) => {
  * @returns a boolean confirmation or denial of deletion
  */
 
-const deleteUser = async (id: string) => {
+const deleteUser = async (id: string): Promise<boolean> => {
   const userIndex = users.findIndex((user) => user.id === id);
   if (userIndex !== -1) {
     users.splice(userIndex, 1);
