@@ -4,15 +4,56 @@ const RESPONSE_MESSAGES = {
   INTERNAL_SERVER_ERROR: '500 Internal Server Error',
 };
 
+/**
+ * Returns a string message stating that the user with the given id does not exist
+ * @param id the user id
+ * @returns a string message stating that the user with the given id does not exist
+ */
+
 const createInvalidUserIdMessage = (id: string) =>
   `User with id: ${id} does not exist`;
+
+/**
+ * Returns a string message stating that the user with the given id has been deleted
+ * @param id the user id
+ * @returns a string message stating that the user with the given id has been deleted
+ */
+
 const createDeleteUserIdMessage = (id: string) => `User with id: ${id} deleted`;
+
+/**
+ * Returns a string message stating that the board with the given id does not exist
+ * @param id the board id
+ * @returns a string message stating that the board with the given id does not exist
+ */
+
 const createInvalidBoardIdMessage = (id: string) =>
   `Board with id: ${id} does not exist`;
+
+/**
+ * Returns a string message stating that the board with the given id has been deleted
+ * @param id the board id
+ * @returns a string message stating that the board with the given id has been deleted
+ */
+
 const createDeleteBoardIdMessage = (id: string) =>
   `Board with id: ${id} deleted`;
+
+/**
+ * Returns a string message stating that the task with the given id does not exist
+ * @param id the task id
+ * @returns a string message stating that the task with the given id does not exist
+ */
+
 const createInvalidTaskIdMessage = (id: string) =>
   `Task with id: ${id} does not exist`;
+
+/**
+ * Returns a string message stating that the task with the given id has been deleted
+ * @param id the task id
+ * @returns a string message stating that the task with the given id has been deleted
+ */
+
 const createDeleteTaskIdMessage = (id: string) => `Task with id: ${id} deleted`;
 
 const STATUS_CODES = {

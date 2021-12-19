@@ -22,6 +22,12 @@ class User implements IUser {
     this.password = password;
   }
 
+  /**
+   * Returns a user without a password
+   * @param user - user whose password needs to be hidden
+   * @returns returns a user without a password
+   */
+
   static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
     return { id, name, login };
