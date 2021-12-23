@@ -21,6 +21,7 @@ router
     if (user) {
       return res.status(STATUS_CODES.CREATED).json(User.toResponse(user));
     }
+    // TODO сделать везде кастомные ошибки!!!!!!!!!!!!!!!!!!!
     return res
       .status(STATUS_CODES.BAD_REQUEST)
       .end(RESPONSE_MESSAGES.BAD_REQUEST);
