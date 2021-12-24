@@ -23,8 +23,8 @@ process.on('uncaughtException', (error: Error) => {
   onUncaughtException(error);
 });
 
-process.on('unhandledRejection', (error: Error) => {
-  onUnhandledPromiseRejection(error);
+process.on('unhandledRejection', (reason: Error) => {
+  onUnhandledPromiseRejection(reason);
 });
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));

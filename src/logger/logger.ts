@@ -1,8 +1,8 @@
 import morgan from 'morgan';
-import { createLogger, format, transports } from 'winston';
+import winston, { createLogger, format, transports } from 'winston';
 import { NextFunction, Request, Response } from 'express';
 import { IRequest } from '../common/types/request';
-import { LOG_LEVEL } from '../common/config';
+import { LOG_LEVEL, NODE_ENV } from '../common/config';
 import { CustomError } from '../common/types/custom-error';
 import { STATUS_CODES, RESPONSE_MESSAGES } from '../utils/constants';
 
@@ -34,7 +34,16 @@ const logger = createLogger({
     format.timestamp(),
     format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
   ),
+  exitOnError: false,
 });
+
+if (NODE_ENV === 'development') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    })
+  );
+}
 
 morgan.token('query', (req: IRequest) => JSON.stringify(req.query));
 morgan.token('body', (req: IRequest) => JSON.stringify(req.body));
@@ -45,27 +54,28 @@ const stream = {
   },
 };
 
-// logger.exit = (exitCode: number): void => {
-//   allTransport.on('finish', () => process.exit(exitCode));
-//   if (allTransport.close) allTransport.close();
-// };
-
 const onUncaughtException = (error: Error): void => {
   logger.error(
     `error message = ${JSON.stringify(error.message)}, stack trace = ${
       error.stack
     }`
   );
-  process.exit(1);
+  logger.info('Process exit');
+  logger.on('finish', () => {
+    process.exit(1);
+  });
 };
 
-const onUnhandledPromiseRejection = (error: Error): void => {
+const onUnhandledPromiseRejection = (reason: Error): void => {
   logger.error(
-    `reject message = ${JSON.stringify(error.message)}, stack trace = ${
-      error.stack
+    `reject message = ${JSON.stringify(reason.message)}, stack trace = ${
+      reason.stack
     }`
   );
-  process.exit(1);
+  logger.info('Process exit');
+  logger.on('finish', () => {
+    process.exit(1);
+  });
 };
 
 const errorHandler = (
