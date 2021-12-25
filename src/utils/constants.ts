@@ -4,6 +4,15 @@ const RESPONSE_MESSAGES = {
   INTERNAL_SERVER_ERROR: '500 Internal Server Error',
 };
 
+const STATUS_CODES = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
 /**
  * Returns a string message stating that the user with the given id does not exist
  * @param id the user id
@@ -55,15 +64,6 @@ const createInvalidTaskIdMessage = (id: string) =>
  */
 
 const createDeleteTaskIdMessage = (id: string) => `Task with id: ${id} deleted`;
-
-const STATUS_CODES = {
-  OK: 200,
-  CREATED: 201,
-  NO_CONTENT: 204,
-  BAD_REQUEST: 400,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-};
 
 export {
   RESPONSE_MESSAGES,

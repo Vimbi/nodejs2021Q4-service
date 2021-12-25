@@ -3,8 +3,9 @@ import winston, { createLogger, format, transports } from 'winston';
 import { NextFunction, Request, Response } from 'express';
 import { IRequest } from '../common/types/request';
 import { LOG_LEVEL, NODE_ENV } from '../common/config';
-import { CustomError } from '../common/types/custom-error';
+// import { CustomError } from '../common/types/custom-error';
 import { STATUS_CODES, RESPONSE_MESSAGES } from '../utils/constants';
+import { CustomError } from '../error/error';
 
 const myCustomLevels = {
   levels: {

@@ -19,14 +19,6 @@ app.use(express.json());
 
 app.use(morgan(':method :url :status :query :body', { stream }));
 
-process.on('uncaughtException', (error: Error) => {
-  onUncaughtException(error);
-});
-
-process.on('unhandledRejection', (reason: Error) => {
-  onUnhandledPromiseRejection(reason);
-});
-
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/', (req, res, next) => {
@@ -36,7 +28,15 @@ app.use('/', (req, res, next) => {
   }
   next();
 });
-// TODO сделать везде кастомные ошибки!!!!!!!!!!!!!!!!!!!
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use(errorHandler);
+
+process.on('uncaughtException', (error: Error) => {
+  onUncaughtException(error);
+});
+
+process.on('unhandledRejection', (reason: Error) => {
+  onUnhandledPromiseRejection(reason);
+});
