@@ -18,12 +18,12 @@ const myCustomLevels = {
 };
 
 const errTransport = new transports.File({
-  filename: `${__dirname}/../logs/error.log`,
+  filename: `${__dirname}/../../logs/error.log`,
   level: 'error',
 });
 
 const allTransport = new transports.File({
-  filename: `${__dirname}/../logs/combined.log`,
+  filename: `${__dirname}/../../logs/combined.log`,
 });
 
 const logger = createLogger({
