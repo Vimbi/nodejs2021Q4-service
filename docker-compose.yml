@@ -1,0 +1,40 @@
+version: '3.8'
+
+volumes:
+  db:
+  logs:
+
+services:
+ notes:
+  build:
+   context: .
+  image: vimbi/node
+  ports:
+   - ${PORT}:${PORT}
+  environment:
+   - SERVER_PORT=${PORT}
+  restart: on-failure
+  depends_on:
+    - postgres
+  volumes:
+   - logs:/app/logs
+   - ./:/app
+  networks:
+      - network
+
+ postgres:
+    build: ./database
+    image: vimbi/postgres
+    ports:
+    - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+    - db:/var/lib/postgresql/data
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge

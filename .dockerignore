@@ -1,0 +1,10 @@
+.github
+.vscode
+doc
+node_modules
+.git
+.idea
+logs
+dist
+build
+db
