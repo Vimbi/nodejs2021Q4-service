@@ -1,5 +1,4 @@
 import express from 'express';
-import User from './user.model';
 import * as usersService from './user.service';
 import {
   STATUS_CODES,
@@ -7,6 +6,7 @@ import {
   createInvalidUserIdMessage,
   createDeleteUserIdMessage,
 } from '../../utils/constants';
+import { toResponse } from './user.model';
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router
   .get(async (_, res, next) => {
     try {
       const users = await usersService.getAll();
-      return res.status(STATUS_CODES.OK).json(users.map(User.toResponse));
+      return res.status(STATUS_CODES.OK).json(users.map(toResponse));
     } catch (error) {
       next(error);
     }
@@ -39,7 +39,7 @@ router
   .get(async (req, res, next) => {
     try {
       const user = await usersService.getUser(req.params.userId);
-      if (user) res.status(STATUS_CODES.OK).json(User.toResponse(user));
+      if (user) return res.status(STATUS_CODES.OK).json(toResponse(user));
       return res
         .status(STATUS_CODES.NOT_FOUND)
         .end(createInvalidUserIdMessage(req.params.userId));

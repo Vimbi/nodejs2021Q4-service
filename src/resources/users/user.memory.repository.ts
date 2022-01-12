@@ -1,13 +1,15 @@
-import { IUser } from '../../common/types/user';
-import users from '../../common/data/users';
-import User from './user.model';
+import { getRepository } from 'typeorm';
+import { User } from './user.model';
 
 /**
  * Returns an array of all users
  * @returns an array of all users
  */
 
-const getAll = async (): Promise<IUser[]> => users;
+const getAll = async (): Promise<User[]> => {
+  const users = await getRepository(User).find();
+  return users;
+};
 
 /**
  * Returns searched user or undefined
@@ -15,8 +17,8 @@ const getAll = async (): Promise<IUser[]> => users;
  * @returns searched user or undefined
  */
 
-const getUserById = async (id: string): Promise<IUser | undefined> => {
-  const searchedUser = users.find((user) => user.id === id);
+const getUserById = async (id: string): Promise<User | undefined> => {
+  const searchedUser = await getRepository(User).findOne(id);
   return searchedUser;
 };
 
@@ -26,10 +28,9 @@ const getUserById = async (id: string): Promise<IUser | undefined> => {
  * @returns added user
  */
 
-const addUser = async (data: IUser): Promise<User> => {
-  const user = new User(data);
-  users.push(user);
-  return user;
+const addUser = async (data: User): Promise<User | undefined> => {
+  const user = await getRepository(User).insert(data);
+  return getRepository(User).findOne(user.identifiers[0].id);
 };
 
 /**
@@ -39,14 +40,13 @@ const addUser = async (data: IUser): Promise<User> => {
  * @returns updated user or false
  */
 
-const updateUser = async (id: string, data: IUser): Promise<false | IUser> => {
-  const userIndex = users.findIndex((user) => user.id === id);
-  if (userIndex !== -1) {
-    const updatedUser: IUser = { ...users[userIndex], ...data };
-    users[userIndex] = updatedUser;
-    return updatedUser;
+const updateUser = async (id: string, data: User): Promise<false | User> => {
+  const user = await getRepository(User).findOne(id);
+  if (typeof user === 'undefined') {
+    return false;
   }
-  return false;
+  const updatedUser = await getRepository(User).update(id, data);
+  return updatedUser.raw;
 };
 
 /**

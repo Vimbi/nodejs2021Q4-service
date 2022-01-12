@@ -1,14 +1,13 @@
-import { IUser } from '../../common/types/user';
 import * as usersRepo from './user.memory.repository';
 import { updateDeleteUserTasks } from '../tasks/task.service';
-import User from './user.model';
+import { User } from './user.model';
 
 /**
  * Returns an array of all users
  * @returns an array of all users
  */
 
-const getAll = (): Promise<IUser[]> => usersRepo.getAll();
+const getAll = (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * Returns searched user or undefined
@@ -16,7 +15,7 @@ const getAll = (): Promise<IUser[]> => usersRepo.getAll();
  * @returns searched user or undefined
  */
 
-const getUser = (id: string): Promise<IUser | undefined> =>
+const getUser = (id: string): Promise<User | undefined> =>
   usersRepo.getUserById(id);
 
 /**
@@ -25,7 +24,8 @@ const getUser = (id: string): Promise<IUser | undefined> =>
  * @returns added user
  */
 
-const addUser = (data: IUser): Promise<User> => usersRepo.addUser(data);
+const addUser = (data: User): Promise<User | undefined> =>
+  usersRepo.addUser(data);
 
 /**
  * Returns the updated user
@@ -34,7 +34,7 @@ const addUser = (data: IUser): Promise<User> => usersRepo.addUser(data);
  * @returns updated user or false
  */
 
-const updateUser = (id: string, data: IUser): Promise<false | IUser> =>
+const updateUser = (id: string, data: User): Promise<false | User> =>
   usersRepo.updateUser(id, data);
 
 /**
@@ -44,6 +44,7 @@ const updateUser = (id: string, data: IUser): Promise<false | IUser> =>
  */
 
 const deleteUser = async (id: string): Promise<boolean> => {
+  // TODO delete TASKS
   await updateDeleteUserTasks(id);
   return usersRepo.deleteUser(id);
 };

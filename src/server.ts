@@ -1,6 +1,15 @@
+import { createConnection } from 'typeorm';
 import { PORT } from './common/config';
 import { app } from './app';
+import config from './ormconfig';
+import { logger } from './logger/logger';
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+createConnection(config)
+  .then(() => {
+    app.listen(PORT, () =>
+      logger.info(`App is running on http://localhost:${PORT}`)
+    );
+  })
+  .catch((error) => {
+    throw new Error(error);
+  });
