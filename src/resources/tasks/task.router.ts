@@ -6,7 +6,6 @@ import {
   createInvalidTaskIdMessage,
   createDeleteTaskIdMessage,
 } from '../../utils/constants';
-import Task from './task.model';
 
 const router = express.Router({ mergeParams: true });
 
@@ -22,9 +21,10 @@ router
   })
   .post(async (req: Request, res, next) => {
     try {
-      const task = await tasksService.addTask(
-        new Task({ ...req.body, boardId: req.params.boardId })
-      );
+      const task = await tasksService.addTask({
+        ...req.body,
+        boardId: req.params.boardId,
+      });
       if (task) {
         return res.status(STATUS_CODES.CREATED).json(task);
       }

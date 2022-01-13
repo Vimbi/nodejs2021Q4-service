@@ -56,12 +56,12 @@ const updateUser = async (id: string, data: User): Promise<false | User> => {
  */
 
 const deleteUser = async (id: string): Promise<boolean> => {
-  const userIndex = users.findIndex((user) => user.id === id);
-  if (userIndex !== -1) {
-    users.splice(userIndex, 1);
-    return true;
+  const user = getRepository(User).findOne(id);
+  if (typeof user === 'undefined') {
+    return false;
   }
-  return false;
+  await getRepository(User).delete(id);
+  return true;
 };
 
 export { getAll, getUserById, addUser, updateUser, deleteUser };

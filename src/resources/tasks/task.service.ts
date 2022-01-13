@@ -1,12 +1,12 @@
-import { ITask } from '../../common/types/task';
 import * as tasksRepo from './task.memory.repository';
+import { Task } from './task.model';
 
 /**
  * Returns an array of all tasks
  * @returns an array of all tasks
  */
 
-const getAll = (): Promise<ITask[]> => tasksRepo.getAll();
+const getAll = (): Promise<Task[]> => tasksRepo.getAll();
 
 /**
  * Returns searched task or undefined
@@ -14,7 +14,7 @@ const getAll = (): Promise<ITask[]> => tasksRepo.getAll();
  * @returns searched task or undefined
  */
 
-const getTask = (id: string): Promise<ITask | undefined> =>
+const getTask = (id: string): Promise<Task | undefined> =>
   tasksRepo.getTaskId(id);
 
 /**
@@ -23,7 +23,8 @@ const getTask = (id: string): Promise<ITask | undefined> =>
  * @returns added task
  */
 
-const addTask = (task: ITask): Promise<ITask> => tasksRepo.addTask(task);
+const addTask = (task: Task): Promise<Task | undefined> =>
+  tasksRepo.addTask(task);
 
 /**
  * Returns the updated task
@@ -36,8 +37,8 @@ const addTask = (task: ITask): Promise<ITask> => tasksRepo.addTask(task);
 const updateTask = (
   boardId: string,
   id: string,
-  data: ITask
-): Promise<false | ITask> => tasksRepo.updateTask(boardId, id, data);
+  data: Task
+): Promise<false | Task> => tasksRepo.updateTask(boardId, id, data);
 
 /**
  * Deletes the task

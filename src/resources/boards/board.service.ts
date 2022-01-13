@@ -1,14 +1,13 @@
-import { IBoard } from '../../common/types/board';
 import * as boardsRepo from './board.memory.repository';
 import { deleteBoardTasks } from '../tasks/task.service';
-import Board from './board.model';
+import { Board } from './board.model';
 
 /**
  * Returns an array of all boards
  * @returns an array of all boards
  */
 
-const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
+const getAll = (): Promise<Board[]> => boardsRepo.getAll();
 
 /**
  * Returns searched board or undefined
@@ -16,7 +15,7 @@ const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
  * @returns searched board or undefined
  */
 
-const getBoard = (id: string): Promise<IBoard | undefined> =>
+const getBoard = (id: string): Promise<Board | undefined> =>
   boardsRepo.getBoardId(id);
 
 /**
@@ -25,7 +24,8 @@ const getBoard = (id: string): Promise<IBoard | undefined> =>
  * @returns added board
  */
 
-const addBoard = (data: IBoard): Promise<Board> => boardsRepo.addBoard(data);
+const addBoard = (data: Board): Promise<Board | undefined> =>
+  boardsRepo.addBoard(data);
 
 /**
  * Returns the updated board
@@ -34,7 +34,7 @@ const addBoard = (data: IBoard): Promise<Board> => boardsRepo.addBoard(data);
  * @returns updated board or false
  */
 
-const updateBoard = (id: string, data: IBoard): Promise<false | IBoard> =>
+const updateBoard = (id: string, data: Board): Promise<false | Board> =>
   boardsRepo.updateBoard(id, data);
 
 /**

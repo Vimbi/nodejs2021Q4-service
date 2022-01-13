@@ -1,12 +1,15 @@
-import { ITask } from '../../common/types/task';
-import tasks from '../../common/data/tasks';
+import { getRepository } from 'typeorm';
+import { Task } from './task.model';
 
 /**
  * Returns an array of all tasks
  * @returns an array of all tasks
  */
 
-const getAll = async (): Promise<ITask[]> => tasks;
+const getAll = async (): Promise<Task[]> => {
+  const tasks = await getRepository(Task).find();
+  return tasks;
+};
 
 /**
  * Returns the added task
@@ -14,9 +17,9 @@ const getAll = async (): Promise<ITask[]> => tasks;
  * @returns added task
  */
 
-const addTask = async (task: ITask): Promise<ITask> => {
-  tasks.push(task);
-  return task;
+const addTask = async (task: Task): Promise<Task | undefined> => {
+  const newTask = await getRepository(Task).insert(task);
+  return getRepository(Task).findOne(newTask.identifiers[0].id);
 };
 
 /**
@@ -25,9 +28,9 @@ const addTask = async (task: ITask): Promise<ITask> => {
  * @returns searched task or undefined
  */
 
-const getTaskId = async (id: string): Promise<ITask | undefined> => {
-  const result = tasks.find((task) => task.id === id);
-  return result;
+const getTaskId = async (id: string): Promise<Task | undefined> => {
+  const searchedTask = await getRepository(Task).findOne(id);
+  return searchedTask;
 };
 
 /**
@@ -41,17 +44,14 @@ const getTaskId = async (id: string): Promise<ITask | undefined> => {
 const updateTask = async (
   boardId: string,
   id: string,
-  data: ITask
-): Promise<false | ITask> => {
-  const taskIndex = tasks.findIndex(
-    (task) => task.id === id && task.boardId === boardId
-  );
-  if (taskIndex !== -1) {
-    const updatedTask: ITask = { ...tasks[taskIndex], ...data };
-    tasks[taskIndex] = updatedTask;
-    return updatedTask;
+  data: Task
+): Promise<false | Task> => {
+  const task = await getRepository(Task).findOne({ boardId, id });
+  if (typeof task === 'undefined') {
+    return false;
   }
-  return false;
+  const updatedTask = await getRepository(Task).update(id, data);
+  return updatedTask.raw;
 };
 
 /**
@@ -61,12 +61,12 @@ const updateTask = async (
  */
 
 const deleteTask = async (id: string): Promise<boolean> => {
-  const taskIndex = tasks.findIndex((task) => task.id === id);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    return true;
+  const task = await getRepository(Task).findOne(id);
+  if (typeof task === 'undefined') {
+    return false;
   }
-  return false;
+  await getRepository(Task).delete(id);
+  return true;
 };
 
 /**
@@ -75,9 +75,7 @@ const deleteTask = async (id: string): Promise<boolean> => {
  */
 
 const deleteBoardTasks = async (id: string): Promise<void> => {
-  await tasks
-    .filter((task) => task.boardId === id)
-    .forEach((task) => deleteTask(task.id));
+  await getRepository(Task).delete({ boardId: id });
 };
 
 /**
@@ -86,11 +84,7 @@ const deleteBoardTasks = async (id: string): Promise<void> => {
  */
 
 const updateDeleteUserTasks = async (id: string): Promise<void> => {
-  tasks.forEach((task, index) => {
-    if (task.userId === id) {
-      tasks[index] = { ...task, userId: null };
-    }
-  });
+  await getRepository(Task).update({ userId: id }, { userId: undefined });
 };
 
 export {

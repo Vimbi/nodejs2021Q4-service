@@ -1,13 +1,15 @@
-import { IBoard } from '../../common/types/board';
-import boards from '../../common/data/boards';
-import Board from './board.model';
+import { getRepository } from 'typeorm';
+import { Board } from './board.model';
 
 /**
  * Returns an array of all boards
  * @returns an array of all boards
  */
 
-const getAll = async (): Promise<IBoard[]> => boards;
+const getAll = async (): Promise<Board[]> => {
+  const boards = await getRepository(Board).find();
+  return boards;
+};
 
 /**
  * Returns searched board or undefined
@@ -15,8 +17,8 @@ const getAll = async (): Promise<IBoard[]> => boards;
  * @returns searched board or undefined
  */
 
-const getBoardId = async (id: string): Promise<IBoard | undefined> => {
-  const result = boards.find((board) => board.id === id);
+const getBoardId = async (id: string): Promise<Board | undefined> => {
+  const result = await getRepository(Board).findOne(id);
   return result;
 };
 
@@ -26,10 +28,9 @@ const getBoardId = async (id: string): Promise<IBoard | undefined> => {
  * @returns added board
  */
 
-const addBoard = async (data: IBoard): Promise<Board> => {
-  const board = new Board(data);
-  boards.push(board);
-  return board;
+const addBoard = async (data: Board): Promise<Board | undefined> => {
+  const board = await getRepository(Board).insert(data);
+  return getRepository(Board).findOne(board.identifiers[0].id);
 };
 
 /**
@@ -39,17 +40,13 @@ const addBoard = async (data: IBoard): Promise<Board> => {
  * @returns updated board or false
  */
 
-const updateBoard = async (
-  id: string,
-  data: IBoard
-): Promise<false | IBoard> => {
-  const boardIndex = boards.findIndex((board) => board.id === id);
-  if (boardIndex !== -1) {
-    const updatedBoard: IBoard = { ...boards[boardIndex], ...data };
-    boards[boardIndex] = updatedBoard;
-    return updatedBoard;
+const updateBoard = async (id: string, data: Board): Promise<false | Board> => {
+  const board = await getRepository(Board).findOne(id);
+  if (typeof board === 'undefined') {
+    return false;
   }
-  return false;
+  const updatedBoard = await getRepository(Board).update(id, data);
+  return updatedBoard.raw;
 };
 
 /**
@@ -59,12 +56,12 @@ const updateBoard = async (
  */
 
 const deleteBoard = async (id: string): Promise<boolean> => {
-  const boardIndex = boards.findIndex((board) => board.id === id);
-  if (boardIndex !== -1) {
-    boards.splice(boardIndex, 1);
-    return true;
+  const board = getRepository(Board).findOne(id);
+  if (typeof board === 'undefined') {
+    return false;
   }
-  return false;
+  await getRepository(Board).delete(id);
+  return true;
 };
 
 export { getAll, addBoard, getBoardId, updateBoard, deleteBoard };

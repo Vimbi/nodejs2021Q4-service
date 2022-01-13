@@ -44,7 +44,6 @@ const updateUser = (id: string, data: User): Promise<false | User> =>
  */
 
 const deleteUser = async (id: string): Promise<boolean> => {
-  // TODO delete TASKS
   await updateDeleteUserTasks(id);
   return usersRepo.deleteUser(id);
 };

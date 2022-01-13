@@ -24,7 +24,7 @@ router
     try {
       const user = await usersService.addUser(req.body);
       if (user) {
-        return res.status(STATUS_CODES.CREATED).json(User.toResponse(user));
+        return res.status(STATUS_CODES.CREATED).json(toResponse(user));
       }
       return res
         .status(STATUS_CODES.BAD_REQUEST)
@@ -51,7 +51,7 @@ router
     try {
       const user = await usersService.updateUser(req.params.userId, req.body);
       if (user) {
-        return res.status(STATUS_CODES.OK).json(User.toResponse(user));
+        return res.status(STATUS_CODES.OK).json(toResponse(user));
       }
       return res
         .status(STATUS_CODES.NOT_FOUND)
