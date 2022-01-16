@@ -1,25 +1,52 @@
-import { v4 as uuid } from 'uuid';
-import { IColumn } from '../../common/types/column';
+// import {
+//   Column,
+//   Entity,
+//   ManyToOne,
+//   OneToMany,
+//   PrimaryGeneratedColumn,
+// } from 'typeorm';
+// import { v4 as uuid } from 'uuid';
+// import { IColumn } from '../../common/types/column';
+// import { Task } from '../tasks/task.model';
+// import { Board } from './board.model';
 
-class Column implements IColumn {
-  id: string;
+// @Entity()
+// export class ColumnEntity {
+//   @PrimaryGeneratedColumn('uuid')
+//   id!: string;
 
-  title: string;
+//   @Column()
+//   title!: string;
 
-  order: number;
+//   @Column()
+//   order!: number;
 
-  /**
-   * Create a column
-   * @param id - column's id
-   * @param title - column's title
-   * @param order - column's order
-   */
+//   @ManyToOne(() => Board, (board) => board.columns)
+//   board!: Board;
 
-  constructor({ id = uuid(), title = 'Column_Title', order = 0 } = {}) {
-    this.id = id;
-    this.title = title;
-    this.order = order;
-  }
-}
+//   @OneToMany(() => Task, (task) => task.column)
+//   tasks!: Task[];
+// }
 
-export default Column;
+// class Column implements IColumn {
+//   id: string;
+
+//   title: string;
+
+//   order: number;
+
+//   /**
+//    * Create a column
+//    * @param id - column's id
+//    * @param title - column's title
+//    * @param order - column's order
+//    */
+
+//   constructor({ id = uuid(), title = 'Column_Title', order = 0 } = {}) {
+//     this.id = id;
+//     this.title = title;
+//     this.order = order;
+//   }
+// }
+
+// export default Column;

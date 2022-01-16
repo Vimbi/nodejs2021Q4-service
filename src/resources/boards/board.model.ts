@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// import { v4 as uuid } from 'uuid';
-// import { IBoard } from '../../common/types/board';
+/* eslint-disable import/no-cycle */
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Task } from '../tasks/task.model';
+// import { ColumnEntity } from './column.model';
 // import Column from './column.model';
 
 @Entity()
@@ -13,31 +14,10 @@ export class Board {
 
   @Column('json', { nullable: true })
   columns!: string;
+
+  // @OneToMany(() => ColumnEntity, (column) => column.board)
+  // columns!: ColumnEntity[];
+
+  @OneToMany(() => Task, (task) => task.board)
+  tasks!: Task[];
 }
-
-// class Board implements IBoard {
-//   id: string;
-
-//   title: string;
-
-//   columns: Column[];
-
-//   /**
-//    * Create a board
-//    * @param id - board's id
-//    * @param title - board's title
-//    * @param column - arrow of columns belonging to this board
-//    */
-
-//   constructor({
-//     id = uuid(),
-//     title = 'Board_Title',
-//     columns = [new Column()],
-//   } = {}) {
-//     this.id = id;
-//     this.title = title;
-//     this.columns = columns;
-//   }
-// }
-
-export default Board;

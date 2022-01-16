@@ -30,7 +30,8 @@ const getBoardId = async (id: string): Promise<Board | undefined> => {
 
 const addBoard = async (data: Board): Promise<Board | undefined> => {
   const board = await getRepository(Board).insert(data);
-  return getRepository(Board).findOne(board.identifiers[0].id);
+  const result = await getRepository(Board).findOne(board.identifiers[0].id);
+  return result;
 };
 
 /**

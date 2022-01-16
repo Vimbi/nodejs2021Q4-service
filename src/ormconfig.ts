@@ -19,6 +19,9 @@ const config: ConnectionOptions = {
   entities: [path.join(__dirname, '/**/*.model.ts')],
   migrationsRun: true,
   migrations: [path.join(__dirname, '/migrations/**/*.ts')],
+  cli: {
+    migrationsDir: './src/migrations',
+  },
 };
 
 export default config;

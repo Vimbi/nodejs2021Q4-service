@@ -11,7 +11,10 @@
     "start": "nodemon --legacy-watch src/server.ts --exitcrash",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
+    "typeorm:migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts migration:generate -n",
+    "typeorm:migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -n "
   },
   "keywords": [
     "rs",
@@ -58,6 +61,7 @@
     "fastify-swagger": "^4.12.6",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
+    "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "4.1.6",
     "typeorm": "^0.2.41",
     "uuid": "8.3.2",

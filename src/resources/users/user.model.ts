@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import 'reflect-metadata';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+// eslint-disable-next-line import/no-cycle
+import { Task } from '../tasks/task.model';
 
 @Entity()
 export class User {
@@ -13,11 +16,12 @@ export class User {
 
   @Column()
   password!: string;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks?: Task[];
 }
 
 export const toResponse = (user: User): Omit<User, 'password'> => {
   const { id, name, login } = user;
   return { id, name, login };
 };
-
-export default User;
