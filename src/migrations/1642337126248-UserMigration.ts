@@ -20,9 +20,16 @@ export class UserMigration1642337126248 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "task" ADD CONSTRAINT "FK_d88edac9d7990145ff6831a7bb3" FOREIGN KEY ("boardId") REFERENCES "board"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into('user')
+      .values({ name: 'admin', login: 'admin', password: 'admin' })
+      .execute();
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DELETE * FROM "user"`);
     await queryRunner.query(
       `ALTER TABLE "task" DROP CONSTRAINT "FK_d88edac9d7990145ff6831a7bb3"`
     );
