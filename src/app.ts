@@ -5,6 +5,7 @@ import express from 'express';
 import morgan from 'morgan';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
+import authRouter from './resources/login/login.router';
 import {
   errorHandler,
   onUncaughtException,
@@ -29,6 +30,7 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use('/login', authRouter);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use(errorHandler);

@@ -22,6 +22,15 @@ const getUserById = async (id: string): Promise<User | undefined> => {
   return searchedUser;
 };
 
+const getUserByLogin = async (login: string): Promise<User | undefined> => {
+  const searchedUser = await getRepository(User).findOne({
+    where: {
+      login,
+    },
+  });
+  return searchedUser;
+};
+
 /**
  * Returns the added user
  * @param data new user parameters
@@ -64,4 +73,4 @@ const deleteUser = async (id: string): Promise<boolean> => {
   return true;
 };
 
-export { getAll, getUserById, addUser, updateUser, deleteUser };
+export { getAll, getUserById, getUserByLogin, addUser, updateUser, deleteUser };
