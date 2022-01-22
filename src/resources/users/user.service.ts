@@ -1,6 +1,7 @@
+import bcrypt from 'bcrypt';
 import * as usersRepo from './user.memory.repository';
 import { updateDeleteUserTasks } from '../tasks/task.service';
-import { User } from './user.model';
+import { User, UserDto } from './user.model';
 
 /**
  * Returns an array of all users
@@ -24,8 +25,12 @@ const getUser = (id: string): Promise<User | undefined> =>
  * @returns added user
  */
 
-const addUser = (data: User): Promise<User | undefined> =>
-  usersRepo.addUser(data);
+const addUser = async (data: UserDto): Promise<User | undefined> => {
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  const password = await bcrypt.hash(data.password, salt);
+  return usersRepo.addUser({ ...data, password });
+};
 
 /**
  * Returns the updated user
@@ -34,7 +39,7 @@ const addUser = (data: User): Promise<User | undefined> =>
  * @returns updated user or false
  */
 
-const updateUser = (id: string, data: User): Promise<false | User> =>
+const updateUser = (id: string, data: UserDto): Promise<false | User> =>
   usersRepo.updateUser(id, data);
 
 /**

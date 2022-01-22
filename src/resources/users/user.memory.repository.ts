@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { User } from './user.model';
+import { User, UserDto } from './user.model';
 
 /**
  * Returns an array of all users
@@ -37,7 +37,7 @@ const getUserByLogin = async (login: string): Promise<User | undefined> => {
  * @returns added user
  */
 
-const addUser = async (data: User): Promise<User | undefined> => {
+const addUser = async (data: UserDto): Promise<User | undefined> => {
   const user = await getRepository(User).insert(data);
   return getRepository(User).findOne(user.identifiers[0].id);
 };
@@ -49,7 +49,7 @@ const addUser = async (data: User): Promise<User | undefined> => {
  * @returns updated user or false
  */
 
-const updateUser = async (id: string, data: User): Promise<false | User> => {
+const updateUser = async (id: string, data: UserDto): Promise<false | User> => {
   const user = await getRepository(User).findOne(id);
   if (typeof user === 'undefined') {
     return false;

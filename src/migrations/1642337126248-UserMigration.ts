@@ -1,6 +1,14 @@
 /* eslint-disable class-methods-use-this */
 import { MigrationInterface, QueryRunner } from 'typeorm';
+import bcrypt from 'bcrypt';
 
+const hashPassword = async () => {
+  const saltRounds = 10;
+  const myPlaintextPassword = 'admin';
+  const salt = await bcrypt.genSalt(saltRounds);
+  const password = await bcrypt.hash(myPlaintextPassword, salt);
+  return password;
+};
 export class UserMigration1642337126248 implements MigrationInterface {
   name = 'UserMigration1642337126248';
 
@@ -24,7 +32,7 @@ export class UserMigration1642337126248 implements MigrationInterface {
       .createQueryBuilder()
       .insert()
       .into('user')
-      .values({ name: 'admin', login: 'admin', password: 'admin' })
+      .values({ name: 'admin', login: 'admin', password: await hashPassword() })
       .execute();
   }
 
