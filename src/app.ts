@@ -1,0 +1,46 @@
+import express from 'express';
+import swaggerUI from 'swagger-ui-express';
+import path from 'path';
+import YAML from 'yamljs';
+import morgan from 'morgan';
+import userRouter from './resources/users/user.router';
+import boardRouter from './resources/boards/board.router';
+import authRouter from './resources/login/login.router';
+import {
+  errorHandler,
+  onUncaughtException,
+  onUnhandledPromiseRejection,
+  stream,
+} from './logger/logger';
+import { authentication } from './authentication/authentication';
+
+export const app = express();
+const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+
+app.use(express.json());
+
+app.use(morgan(':method :url :status :query :body', { stream }));
+
+app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+app.use('/', (req, res, next) => {
+  if (req.originalUrl === '/') {
+    res.send('Service is running!');
+    return;
+  }
+  next();
+});
+
+app.use('/login', authRouter);
+app.use(authentication);
+app.use('/users', userRouter);
+app.use('/boards', boardRouter);
+app.use(errorHandler);
+
+process.on('uncaughtException', (error: Error) => {
+  onUncaughtException(error);
+});
+
+process.on('unhandledRejection', (reason: Error) => {
+  onUnhandledPromiseRejection(reason);
+});
