@@ -31,10 +31,16 @@ export class UserService {
   }
 
   async getUserByLogin(login: string) {
-    const user = await this.usersRepository
-      .createQueryBuilder('users')
-      .where('users.login = :login', { login: login })
-      .getOne();
+    // const user = await this.usersRepository
+    //   .createQueryBuilder('users')
+    //   .where('users.login = :login', { login: login })
+    //   .getOne();
+    const user = await this.usersRepository.findOne({
+      where: {
+        login,
+      },
+    });
+    console.log('!!!!!!');
     return user;
   }
 

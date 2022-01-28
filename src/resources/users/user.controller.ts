@@ -7,7 +7,9 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '../../guards/auth.guard';
 import { AddUserValidationPipe } from '../../validation/users/add-user-validation-pipe';
 import { UpdateUserValidationPipe } from '../../validation/users/update-user-validation-pipe';
 import { UserExistenceValidationPipe } from '../../validation/users/user-existence-validation-pipe';
@@ -15,9 +17,10 @@ import { UserDto } from './dto/user.create.dto';
 import { UserUpdateDto } from './dto/user.update.dto';
 import { UserService } from './user.service';
 
-@Controller()
+@Controller('users')
+// @UseGuards(AuthGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private userService: UserService) {}
 
   @Get()
   async findUsers(@Query() query) {

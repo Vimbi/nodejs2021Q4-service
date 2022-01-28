@@ -1,4 +1,4 @@
-import path from 'path';
+import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { Board } from './resources/boards/board.entity';
 import { Task } from './resources/tasks/task.entity';
 import { User } from './resources/users/user.entity';
+import { UserModule } from './resources/users/user.module';
 
 @Module({
   imports: [
@@ -24,12 +25,13 @@ import { User } from './resources/users/user.entity';
       synchronize: false,
       entities: [User, Board, Task],
       migrationsRun: true,
-      migrations: [path.join(__dirname, '/migrations/**/*.ts')],
+      migrations: ['dist/migrations/*{.ts,.js}'],
       cli: {
         migrationsDir: './src/migrations',
       },
       keepConnectionAlive: true,
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
