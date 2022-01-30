@@ -1,12 +1,9 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { encryptPassword } from '../utils/encrypt-password';
 
 const hashPassword = async () => {
-  const saltRounds = 10;
   const myPlaintextPassword = 'admin';
-  const salt = await bcrypt.genSalt(saltRounds);
-  const password = await bcrypt.hash(myPlaintextPassword, salt);
-  return password;
+  return await encryptPassword(myPlaintextPassword);
 };
 export class UserMigration1642337126248 implements MigrationInterface {
   name = 'UserMigration1642337126248';

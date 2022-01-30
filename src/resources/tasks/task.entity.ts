@@ -12,31 +12,31 @@ import { User } from '../users/user.entity';
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id: string;
 
   @Column()
-  title!: string;
+  title: string;
 
   @Column()
   order?: number = 0;
 
   @Column()
-  description!: string;
+  description: string;
 
-  @Column({ nullable: true })
-  userId!: string;
+  @Column({ type: 'uuid', nullable: true })
+  userId: string;
 
   @ManyToOne(() => User, (user) => user.tasks)
   @JoinColumn({ name: 'userId' })
-  user!: User;
+  user: User;
 
-  @Column({ nullable: true })
-  boardId!: string;
+  @Column({ type: 'uuid', nullable: true })
+  boardId: string;
 
   @ManyToOne(() => Board, (board) => board.tasks)
   @JoinColumn({ name: 'boardId' })
-  board!: Board;
+  board: Board;
 
   @Column({ nullable: true })
-  columnId!: string;
+  columnId: string;
 }

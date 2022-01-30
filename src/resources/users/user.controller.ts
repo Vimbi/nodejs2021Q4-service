@@ -15,38 +15,37 @@ import { UpdateUserValidationPipe } from '../../validation/users/update-user-val
 import { UserExistenceValidationPipe } from '../../validation/users/user-existence-validation-pipe';
 import { UserDto } from './dto/user.create.dto';
 import { UserUpdateDto } from './dto/user.update.dto';
+import { toResponse } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('users')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  async findUsers(@Query() query) {
-    if (query.id) {
-      return await this.userService.getUsersByIds(query.id);
-    } else {
-      return await this.userService.getAllUsers();
-    }
+  async findUsers() {
+    return (await this.userService.getAllUsers()).map(toResponse);
   }
 
   @Get(':id')
-  async getOne(@Param('id', UserExistenceValidationPipe) id: number) {
-    return await this.userService.getUserById(id);
+  async getOneUser(@Param('id', UserExistenceValidationPipe) id: string) {
+    return toResponse(await this.userService.getUserById(id));
   }
 
   @Post()
-  async addUser(@Body(AddUserValidationPipe) userDto: UserDto) {
-    return await this.userService.addUser(userDto);
+  // async addUser(@Body(AddUserValidationPipe) userDto: UserDto) {
+  async addUser(@Body() userDto: UserDto) {
+    return toResponse(await this.userService.addUser(userDto));
   }
 
   @Put(':id')
   async updateUser(
     @Param('id', UserExistenceValidationPipe) id: string,
-    @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto,
+    // @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto,
+    @Body() userUpdateDto: UserUpdateDto,
   ) {
-    return await this.userService.updateUser(id, userUpdateDto);
+    return toResponse(await this.userService.updateUser(id, userUpdateDto));
   }
 
   @Delete(':id')

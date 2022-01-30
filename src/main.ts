@@ -3,8 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 
+const PORT = parseInt(process.env.PORT) || 4000;
+
 async function bootstrap() {
-  const PORT = parseInt(process.env.PORT) || 4000;
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({

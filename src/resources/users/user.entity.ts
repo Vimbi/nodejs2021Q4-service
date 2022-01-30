@@ -4,16 +4,16 @@ import { Task } from '../tasks/task.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id: string;
 
   @Column()
-  name!: string;
+  name: string;
 
   @Column()
-  login!: string;
+  login: string;
 
   @Column()
-  password!: string;
+  password: string;
 
   @OneToMany(() => Task, (task) => task.user)
   tasks?: Task[];

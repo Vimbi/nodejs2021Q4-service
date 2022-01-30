@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +7,9 @@ import { Board } from './resources/boards/board.entity';
 import { Task } from './resources/tasks/task.entity';
 import { User } from './resources/users/user.entity';
 import { UserModule } from './resources/users/user.module';
+import { BoardModule } from './resources/boards/board.module';
+import { TaskModule } from './resources/tasks/task.module';
+import { LoginModule } from './resources/login/login.module';
 
 @Module({
   imports: [
@@ -31,7 +33,10 @@ import { UserModule } from './resources/users/user.module';
       },
       keepConnectionAlive: true,
     }),
+    BoardModule,
+    TaskModule,
     UserModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],

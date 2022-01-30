@@ -1,23 +1,21 @@
-import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 export const checkExistence = (data, message) => {
   if (Array.isArray(data)) {
     if (data.length === 0) throw new NotFoundException(message);
-  } else {
-    if (typeof data === 'undefined') {
-      throw new HttpException(message, HttpStatus.NOT_FOUND);
-    }
+  } else if (typeof data === 'undefined') {
+    throw new NotFoundException(message);
   }
 };
 
 export const checkDataCreation = (data, message: string) => {
   if (typeof data === 'undefined') {
-    throw new HttpException(message, HttpStatus.BAD_REQUEST);
+    throw new BadRequestException(message);
   }
 };
 
 export const checkRemoval = (removeSuccess, message) => {
   if (!removeSuccess.affected) {
-    throw new HttpException(message, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(message);
   }
 };

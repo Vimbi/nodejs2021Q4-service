@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserLoginDto } from '../users/dto/user.login.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -19,7 +14,6 @@ export class LoginService {
   async login(userLoginDto: UserLoginDto) {
     const user = await this.usersService.getUserByLogin(userLoginDto.login);
     if (!user) {
-      throw new NotFoundException();
       throw new HttpException(
         errorMsgs.wrongLoginPassword,
         HttpStatus.FORBIDDEN,
