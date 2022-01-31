@@ -3,6 +3,7 @@ version: '3.8'
 volumes:
   db:
   logs:
+  files:
 
 services:
  notes:
@@ -17,6 +18,7 @@ services:
   depends_on:
     - postgres
   volumes:
+   - files:/app/files
    - logs:/app/logs
    - ./src:/app/src
   networks:
