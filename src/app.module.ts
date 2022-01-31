@@ -10,6 +10,7 @@ import { UserModule } from './resources/users/user.module';
 import { BoardModule } from './resources/boards/board.module';
 import { TaskModule } from './resources/tasks/task.module';
 import { LoginModule } from './resources/login/login.module';
+import { UploadModule } from './resources/upload/upload.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { LoginModule } from './resources/login/login.module';
     TaskModule,
     UserModule,
     LoginModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
