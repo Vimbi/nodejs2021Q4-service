@@ -20,12 +20,16 @@ export class UpdateTaskValidationPipe implements PipeTransform {
     const excistingTask = await this.tasksService.getTaskById(taskUpdateDto.id);
     checkExistence(excistingTask, createInvalidTaskIdMessage(taskUpdateDto.id));
 
-    const task = await this.tasksService.getTaskByTitle(
-      taskUpdateDto.boardId,
-      taskUpdateDto.title,
-    );
-    if (task) {
-      throw new BadRequestException(errorMsgs.taskTitleDuplicated);
+    // const task = await this.tasksService.getTaskByTitle(
+    //   taskUpdateDto.boardId,
+    //   taskUpdateDto.title,
+    // );
+    // if (task) {
+    //   throw new BadRequestException(errorMsgs.taskTitleDuplicated);
+    // }
+
+    if (taskUpdateDto.title && taskUpdateDto.title.length < 1) {
+      throw new BadRequestException(errorMsgs.wrongTitle);
     }
 
     return taskUpdateDto;

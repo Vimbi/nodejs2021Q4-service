@@ -37,16 +37,14 @@ export class BoardController {
   }
 
   @Post()
-  // async addBoard(@Body(AddBoardValidationPipe) boardCreateDto: BoardCreateDto) {
-  async addBoard(@Body() boardCreateDto: BoardCreateDto) {
+  async addBoard(@Body(AddBoardValidationPipe) boardCreateDto: BoardCreateDto) {
     return await this.boardService.addBoard(boardCreateDto);
   }
 
   @Put(':id')
   async updateBoard(
     @Param('id', BoardExistenceValidationPipe) id: string,
-    // @Body(UpdateBoardValidationPipe) boardUpdateDto: BoardUpdateDto,
-    @Body() boardUpdateDto: BoardUpdateDto,
+    @Body(UpdateBoardValidationPipe) boardUpdateDto: BoardUpdateDto,
   ) {
     return await this.boardService.updateBoard(id, boardUpdateDto);
   }

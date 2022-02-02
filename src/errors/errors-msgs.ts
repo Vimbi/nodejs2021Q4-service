@@ -9,6 +9,7 @@ export const errorMsgs = {
   usersNotFound: 'User(s) not found',
   usersNotCreated: 'User not created',
   wrongLoginPassword: 'Wrong login or password',
+  wrongTitle: 'Title si too short',
 };
 
 export const createInvalidUserIdMessage = (id: string) =>

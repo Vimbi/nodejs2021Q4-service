@@ -1,8 +1,6 @@
 import {
   ArgumentMetadata,
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
@@ -15,11 +13,15 @@ export class AddBoardValidationPipe implements PipeTransform {
   constructor(private boardsService: BoardService) {}
 
   async transform(boardCreateDto: BoardCreateDto, _metadata: ArgumentMetadata) {
-    const board = await this.boardsService.getBoardByTitle(
-      boardCreateDto.title,
-    );
-    if (board) {
-      throw new BadRequestException(errorMsgs.boardTitleDuplicated);
+    // const board = await this.boardsService.getBoardByTitle(
+    //   boardCreateDto.title,
+    // );
+    // if (board) {
+    //   throw new BadRequestException(errorMsgs.boardTitleDuplicated);
+    // }
+
+    if (boardCreateDto.title.length < 1) {
+      throw new BadRequestException(errorMsgs.wrongTitle);
     }
 
     return boardCreateDto;

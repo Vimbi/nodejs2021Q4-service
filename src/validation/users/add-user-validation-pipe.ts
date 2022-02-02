@@ -1,5 +1,6 @@
 import {
   ArgumentMetadata,
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -15,12 +16,15 @@ export class AddUserValidationPipe implements PipeTransform {
   constructor(private usersService: UserService) {}
 
   async transform(userDto: UserDto, _metadata: ArgumentMetadata) {
-    const user = await this.usersService.getUserByLogin(userDto.login);
-    if (user) {
-      throw new HttpException(
-        errorMsgs.userLoginDuplicated,
-        HttpStatus.BAD_REQUEST,
-      );
+    // const user = await this.usersService.getUserByLogin(userDto.login);
+    // if (user) {
+    //   throw new HttpException(
+    //     errorMsgs.userLoginDuplicated,
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
+    if (userDto.login && userDto.login.length < 1) {
+      throw new BadRequestException(errorMsgs.wrongTitle);
     }
     userDto.password = await encryptPassword(userDto.password);
 

@@ -13,12 +13,16 @@ export class AddTaskValidationPipe implements PipeTransform {
   constructor(private tasksService: TaskService) {}
 
   async transform(taskCreateDto: TaskCreateDto, _metadata: ArgumentMetadata) {
-    const task = await this.tasksService.getTaskByTitle(
-      taskCreateDto.boardId,
-      taskCreateDto.title,
-    );
-    if (task) {
-      throw new BadRequestException(errorMsgs.taskTitleDuplicated);
+    // const task = await this.tasksService.getTaskByTitle(
+    //   taskCreateDto.boardId,
+    //   taskCreateDto.title,
+    // );
+    // if (task) {
+    //   throw new BadRequestException(errorMsgs.taskTitleDuplicated);
+    // }
+
+    if (taskCreateDto.title && taskCreateDto.title.length < 1) {
+      throw new BadRequestException(errorMsgs.wrongTitle);
     }
 
     return taskCreateDto;

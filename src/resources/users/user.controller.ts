@@ -34,16 +34,14 @@ export class UserController {
   }
 
   @Post()
-  // async addUser(@Body(AddUserValidationPipe) userDto: UserDto) {
-  async addUser(@Body() userDto: UserDto) {
+  async addUser(@Body(AddUserValidationPipe) userDto: UserDto) {
     return toResponse(await this.userService.addUser(userDto));
   }
 
   @Put(':id')
   async updateUser(
     @Param('id', UserExistenceValidationPipe) id: string,
-    // @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto,
-    @Body() userUpdateDto: UserUpdateDto,
+    @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto,
   ) {
     return toResponse(await this.userService.updateUser(id, userUpdateDto));
   }

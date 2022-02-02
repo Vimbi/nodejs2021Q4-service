@@ -1,5 +1,6 @@
 import {
   ArgumentMetadata,
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -10,20 +11,24 @@ import { UserDto } from '../../resources/users/dto/user.create.dto';
 import { UserUpdateDto } from '../../resources/users/dto/user.update.dto';
 import { UserService } from '../../resources/users/user.service';
 import { encryptPassword } from '../../utils/encrypt-password';
+import { checkExistence } from '../checks';
 
 @Injectable()
 export class UpdateUserValidationPipe implements PipeTransform {
   constructor(private usersService: UserService) {}
 
   async transform(userUpdateDto: UserUpdateDto, _metadata: ArgumentMetadata) {
-    if (userUpdateDto.login) {
-      const user = await this.usersService.getUserByLogin(userUpdateDto.login);
-      if (user) {
-        throw new HttpException(
-          errorMsgs.userLoginDuplicated,
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+    // if (userUpdateDto.login) {
+    //   const user = await this.usersService.getUserByLogin(userUpdateDto.login);
+    //   if (user) {
+    //     throw new HttpException(
+    //       errorMsgs.userLoginDuplicated,
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //   }
+    // }
+    if (userUpdateDto.login && userUpdateDto.login.length < 1) {
+      throw new BadRequestException(errorMsgs.wrongTitle);
     }
 
     if (userUpdateDto.password) {

@@ -25,6 +25,8 @@ export class LoggerInterceptor implements NestInterceptor {
       body = JSON.stringify(req.body);
     }
     const url = process.env.USE_FASTIFY === 'true' ? req.url : req.originalUrl;
+    console.log('44444', req.url)
+    console.log('55555', req.originalUrl)
 
     return next.handle().pipe(
       tap(() => {

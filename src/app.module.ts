@@ -11,6 +11,8 @@ import { BoardModule } from './resources/boards/board.module';
 import { TaskModule } from './resources/tasks/task.module';
 import { LoginModule } from './resources/login/login.module';
 import { UploadModule } from './resources/upload/upload.module';
+import { WinstonModule } from 'nest-winston';
+import { configuration } from './logger/configuration';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { UploadModule } from './resources/upload/upload.module';
       },
       keepConnectionAlive: true,
     }),
+    WinstonModule.forRoot(configuration),
     BoardModule,
     TaskModule,
     UserModule,

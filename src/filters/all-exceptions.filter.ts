@@ -16,10 +16,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
     private readonly logger: LoggerService
   ) {}
   catch(exception, host: ArgumentsHost) {
+    console.log('!!!!!!!!!!!!!!!!!!!', exception)
+
     const ctx = host.switchToHttp();
     const res = ctx.getResponse();
     const req = ctx.getRequest();
-    const { method, originalUrl: url } = req;
+    const url = process.env.USE_FASTIFY === 'true' ? req.url : req.originalUrl;
     const query = JSON.stringify(req.query);
     let body = '';
     if (req.body) {
@@ -40,7 +42,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = exception.message;
     }
 
-    this.logger.error(`${method} ${url} ${status} ${query} ${body}`);
+    this.logger.error(
+      `${req.method} ${url} ${status} ${query} ${body} ${message}`
+    );
 
     if (process.env.USE_FASTIFY === 'true') {
       res.status(status).send(exception);
