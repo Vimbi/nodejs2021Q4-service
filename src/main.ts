@@ -8,6 +8,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { LoggerInterceptor } from './interceptors/logger.interceptor';
 
 const PORT = parseInt(process.env.PORT) || 4000;
 
@@ -30,7 +31,11 @@ async function bootstrap() {
   );
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+
+  app.useGlobalInterceptors(new LoggerInterceptor(logger));
+  app.useGlobalFilters(new AllExceptionsFilter(logger));
 
   if (process.env.USE_FASTIFY === 'true') {
     await app.listen(PORT, '0.0.0.0');

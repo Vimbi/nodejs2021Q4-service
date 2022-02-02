@@ -18,7 +18,7 @@ import { ParseFile } from '../../validation/upload/parse-file.pipe';
 import { UploadDto } from './dto/upload.dto';
 
 @Controller()
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class UploadController {
   @Get('file/:filename')
   seeUploadedFile(@Param('filename') name, @Res() res) {
