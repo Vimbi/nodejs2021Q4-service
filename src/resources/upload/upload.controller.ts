@@ -13,19 +13,22 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { AuthGuard } from '../../guards/auth.guard';
+import { FastifyFileInterceptor } from '../../interceptors/fastify-file.interceptor';
 import { editFileName } from '../../utils/edit-file-name';
 import { ParseFile } from '../../validation/upload/parse-file.pipe';
 import { UploadDto } from './dto/upload.dto';
-
+import { routeExpress, routeFastify } from '../../common/config';
+import { UploadService } from './upload.service';
 @Controller()
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class UploadController {
+  constructor(private uploadService: UploadService) {}
   @Get('file/:filename')
-  seeUploadedFile(@Param('filename') name, @Res() res) {
-    return res.sendFile(name, { root: './files' });
+  getFile(@Param('filename') name: string, @Res() res) {
+    return this.uploadService.getFile(name, res);
   }
 
-  @Post('file')
+  @Post(routeExpress)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -43,5 +46,21 @@ export class UploadController {
       filename: file.filename,
     };
     return response;
+  }
+
+  @Post(routeFastify)
+  @UseInterceptors(
+    FastifyFileInterceptor('file', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+    })
+  )
+  single(
+    @Body() body: UploadDto,
+    @UploadedFile(ParseFile) file: Express.Multer.File
+  ) {
+    return { ...body, url: file };
   }
 }

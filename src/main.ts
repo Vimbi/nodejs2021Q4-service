@@ -16,14 +16,12 @@ const PORT = parseInt(process.env.PORT) || 4000;
 async function bootstrap() {
   let app;
   if (process.env.USE_FASTIFY === 'true') {
-    console.log('111111111111111111')
     app = await NestFactory.create<NestFastifyApplication>(
       AppModule,
       new FastifyAdapter()
     );
     app.register(contentParser);
   } else {
-    console.log('22222222222222222222222')
     app = await NestFactory.create(AppModule);
   }
   app.useGlobalPipes(

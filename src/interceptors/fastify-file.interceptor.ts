@@ -33,8 +33,6 @@ export function FastifyFileInterceptor(
       context: ExecutionContext,
       next: CallHandler
     ): Promise<Observable<any>> {
-      console.log('99999999999999999')
-
       const ctx = context.switchToHttp();
 
       await new Promise<void>((resolve, reject) =>
