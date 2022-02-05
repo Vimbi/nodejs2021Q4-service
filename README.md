@@ -4,7 +4,7 @@
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
-  
+
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -71,3 +71,51 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+# Fastify
+|-----------------------	|----------------------------------------	|
+| Test duration  	        | 40 sec                                 	|
+| Virtual Users created  	| 48                                  	  |
+| Virtual Users completed	| 48                                    	|
+| http.requests          	| 240                                     |
+| http.codes.201          | 48                                     	|
+| http.responses          | 240                                    	|
+| http.codes.200          | 192                                    	|
+| vusers.failed           | 0                                     	|
+| vusers.completed        | 48                                    	|
+| http.response_time:    	|                                        	|
+| min:                  	| 2                                      	|
+| max:                  	| 65                                    	|
+| median:                	| 5                                      	|
+| p95:                  	| 59,7                                    |
+| p99:                  	| 61                                     	|
+| vusers.session_length: 	|                                        	|
+| min:                  	| 127,3                                  	|
+| max:                  	| 170,4                                  	|
+| median:                	| 133                                    	|
+| p95:                  	| 138,4                                   |
+| p99:                  	| 147                                    	|
+
+# Express
+|-----------------------	|----------------------------------------	|
+| Test duration  	        | 30 sec                                 	|
+| Virtual Users created  	| 24                                  	  |
+| Virtual Users completed	| 24                                    	|
+| http.requests          	| 120                                     |
+| http.codes.201          | 24                                     	|
+| http.responses          | 120                                    	|
+| http.codes.200          | 96                                    	|
+| vusers.failed           | 0                                     	|
+| vusers.completed        | 24                                    	|
+| http.response_time:    	|                                        	|
+| min:                  	| 2                                      	|
+| max:                  	| 61                                    	|
+| median:                	| 5                                      	|
+| p95:                  	| 58,6                                    |
+| p99:                  	| 58,6                                   	|
+| vusers.session_length: 	|                                        	|
+| min:                  	| 126,7                                  	|
+| max:                  	| 156,6                                  	|
+| median:                	| 130,3                                  	|
+| p95:                  	| 135,7                                   |
+| p99:                  	| 135,7                                  	|
