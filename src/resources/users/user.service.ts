@@ -14,7 +14,7 @@ export class UserService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task>,
+    private tasksRepository: Repository<Task>
   ) {}
 
   async getAllUsers() {

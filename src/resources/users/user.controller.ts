@@ -41,7 +41,7 @@ export class UserController {
   @Put(':id')
   async updateUser(
     @Param('id', UserExistenceValidationPipe) id: string,
-    @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto,
+    @Body(UpdateUserValidationPipe) userUpdateDto: UserUpdateDto
   ) {
     return toResponse(await this.userService.updateUser(id, userUpdateDto));
   }

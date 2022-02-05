@@ -9,21 +9,21 @@ import { errorMsgs } from '../../errors/errors-msgs';
 export class LoginService {
   constructor(
     private jwtService: JwtService,
-    private usersService: UserService,
+    private usersService: UserService
   ) {}
   async login(userLoginDto: UserLoginDto) {
     const user = await this.usersService.getUserByLogin(userLoginDto.login);
     if (!user) {
       throw new HttpException(
         errorMsgs.wrongLoginPassword,
-        HttpStatus.FORBIDDEN,
+        HttpStatus.FORBIDDEN
       );
     }
     const match = await bcrypt.compare(userLoginDto.password, user.password);
     if (!match) {
       throw new HttpException(
         errorMsgs.wrongLoginPassword,
-        HttpStatus.FORBIDDEN,
+        HttpStatus.FORBIDDEN
       );
     }
     const payload = { userId: user.id, login: user.login };

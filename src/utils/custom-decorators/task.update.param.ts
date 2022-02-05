@@ -14,5 +14,5 @@ export const TaskUpdateParam = createParamDecorator(
     };
 
     return result;
-  },
+  }
 );

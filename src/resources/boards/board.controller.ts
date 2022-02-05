@@ -44,7 +44,7 @@ export class BoardController {
   @Put(':id')
   async updateBoard(
     @Param('id', BoardExistenceValidationPipe) id: string,
-    @Body(UpdateBoardValidationPipe) boardUpdateDto: BoardUpdateDto,
+    @Body(UpdateBoardValidationPipe) boardUpdateDto: BoardUpdateDto
   ) {
     return await this.boardService.updateBoard(id, boardUpdateDto);
   }

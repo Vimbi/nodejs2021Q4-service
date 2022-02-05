@@ -14,7 +14,7 @@ export class BoardService {
     @InjectRepository(Board)
     private boardsRepository: Repository<Board>,
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task>,
+    private tasksRepository: Repository<Task>
   ) {}
 
   async getAllBoards() {

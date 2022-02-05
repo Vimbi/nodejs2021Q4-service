@@ -12,5 +12,5 @@ export const TaskCreateParam = createParamDecorator(
     };
 
     return result;
-  },
+  }
 );

@@ -11,7 +11,7 @@ import { Task } from './task.entity';
 export class TaskService {
   constructor(
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task>,
+    private tasksRepository: Repository<Task>
   ) {}
 
   async getAllTasks(boardId: string) {

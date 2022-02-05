@@ -36,14 +36,14 @@ export class TaskController {
 
   @Post(':boardId/tasks')
   async addTask(
-    @TaskCreateParam(AddTaskValidationPipe) taskCreateDto: TaskCreateDto,
+    @TaskCreateParam(AddTaskValidationPipe) taskCreateDto: TaskCreateDto
   ) {
     return await this.taskService.addTask(taskCreateDto);
   }
 
   @Put(':boardId/tasks/:id')
   async updateTask(
-    @TaskUpdateParam(UpdateTaskValidationPipe) taskUpdateDto: TaskUpdateDto,
+    @TaskUpdateParam(UpdateTaskValidationPipe) taskUpdateDto: TaskUpdateDto
   ) {
     return await this.taskService.updateTask(taskUpdateDto);
   }
