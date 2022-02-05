@@ -13,12 +13,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { AuthGuard } from '../../guards/auth.guard';
-import { FastifyFileInterceptor } from '../../interceptors/fastify-file.interceptor';
 import { editFileName } from '../../utils/edit-file-name';
 import { ParseFile } from '../../validation/upload/parse-file.pipe';
 import { UploadDto } from './dto/upload.dto';
 import { routeExpress, routeFastify } from '../../common/config';
 import { UploadService } from './upload.service';
+import { FileFastifyInterceptor } from 'fastify-file-interceptor';
+
 @Controller()
 // @UseGuards(AuthGuard)
 export class UploadController {
@@ -50,7 +51,7 @@ export class UploadController {
 
   @Post(routeFastify)
   @UseInterceptors(
-    FastifyFileInterceptor('file', {
+    FileFastifyInterceptor('file', {
       storage: diskStorage({
         destination: './files',
         filename: editFileName,
